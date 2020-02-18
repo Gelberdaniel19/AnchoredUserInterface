@@ -1,0 +1,4 @@
+// Hint files help the Visual Studio IDE interpret Visual C++ identifiers
+// such as names of functions and macros.
+// For more information see https://go.microsoft.com/fwlink/?linkid=865984
+#define AUI_Component(classname, parentname) using classname##Ptr = std::unique_ptr<classname>;public: classname(Container* parent) : parentname##(parent) { } static classname##* create(Container* parent) { classname##Ptr p_component = std::make_unique<classname>(parent); classname##* rp_component = p_component.get(); parent.add(std::move(p_component)); rp_component->Init(); return rp_component;}

@@ -4,18 +4,26 @@
 namespace aui
 {
 
-	Node::Node(Container& parent)
-		: parent(&parent) { }
+	Node::Node(Container* parent)
+		: parent(parent) { }
 
-	Node& Node::create(Container& parent)
+	Node* Node::create(Container* parent)
 	{
-		NodePtr p_node = std::make_unique<Node>(parent);
-		NodeRef node = parent.add(std::move(p_node));
-		node.Init();
+		std::unique_ptr<Node> p_node = std::make_unique<Node>(parent);
+		Node* node = parent->add(std::move(p_node));
+		node->Init();
 		return node;
 	}
 
 	void Node::Init() { }
+
+	Node* Node::find(std::string name)
+	{
+		if (this->name == name) {
+			return this;
+		}
+		return nullptr;
+	}
 
 
 	Container* Node::getParent()
@@ -48,22 +56,22 @@ namespace aui
 		return this->name;
 	}
 
-	Node& Node::setWidth(double width)
+	Node* Node::setWidth(double width)
 	{
 		this->width = width;
-		return *this;
+		return this;
 	}
 
-	Node& Node::setHeight(double height)
+	Node* Node::setHeight(double height)
 	{
 		this->height = height;
-		return *this;
+		return this;
 	}
 
-	Node& Node::setName(std::string name)
+	Node* Node::setName(std::string name)
 	{
 		this->name = name;
-		return *this;
+		return this;
 	}
 
 }
